@@ -40,6 +40,12 @@ namespace ConsoleApp1
         public abstract AbstractStateBuilder Entity(String name);
         public abstract Entity Build();
 
+        private Entity Init(Entity e)
+        {
+            e.Init();
+            return e;
+        }
+
         public Entity Finish()
         {
             createStuff();

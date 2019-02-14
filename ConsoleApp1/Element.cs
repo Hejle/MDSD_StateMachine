@@ -11,11 +11,5 @@ namespace ConsoleApp1
         public Element (string name) : base(name)
         {
         }
-
-        public void Init()
-        {
-            CurrentState = CurrentState.CheckTrasitionRules(this.Variables);
-        }
-
     }
 }

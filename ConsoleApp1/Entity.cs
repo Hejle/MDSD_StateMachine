@@ -17,14 +17,19 @@ namespace ConsoleApp1
 
         public string Name { get; private set; }
 
+        public Entity(string name)
+        {
+            this.Name = name;
+        }
+
         public void AddVariable(Variable variable)
         {
             Variables.Add(variable.Name, variable);
         }
 
-        public Entity(string name)
+        public void Init()
         {
-            this.Name = name;
+            CurrentState = CurrentState.CheckTrasitionRules(this.Variables);
         }
 
         public void IncreaseIntVariable(string variable, int input)
