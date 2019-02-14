@@ -9,7 +9,12 @@ namespace ConsoleApp1.Rule
     public abstract class AbstractIntegerRule : AbstractRule
     {
 
-        protected int targetValue;
+        protected int TargetValue;
+
+        protected AbstractIntegerRule(string variable, int targetValue) : base (variable)
+        {
+            this.TargetValue = targetValue;
+        }
 
         public override Boolean SatisfyAbstractRule(Object input)
         {

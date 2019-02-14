@@ -9,26 +9,33 @@ namespace ConsoleApp1
 {
     public abstract class AbstractStateBuilder {
 
-        private Dictionary<String, State> stateDic = new Dictionary<string, State>();
+        private Dictionary<string, State> stateDic = new Dictionary<string, State>();
         private List<StateTrasition> transitionStateList = new List<StateTrasition>();
 
-        private protected Entity currentEntity;
+        private protected Entity CurrentEntity;
 
-        private State currentState;
+        private State CurrentState;
 
-        private Transition currentTransition;
+        private Transition CurrentTransition;
 
-        private Boolean currentRule;
+        private string CurrentRuleVariable;
 
-        private Boolean currentRuleMore;
+        private Boolean CurrentRuleMore;
 
-        private Boolean currentRuleLess;
+        private Boolean CurrentRuleLess;
 
-        private Boolean currentRuleEqual;
+        private Boolean CurrentRuleEqual;
 
-        private String currentTypeRule;
+        private String CurrentTypeRule;
 
-        private Object currentRuleValue;
+        private Object CurrentRuleValue;
+
+        private string CurrentVariableName;
+
+        private string CurrentVariableType;
+
+        private object CurrentVariableValue;
+
 
         public abstract AbstractStateBuilder Entity(String name);
         public abstract Entity Build();
@@ -42,32 +49,36 @@ namespace ConsoleApp1
                 To(entry.transition, state);
             }
 
-            return currentEntity;
+            return CurrentEntity;
         }
 
         private void createStuff()
         {
-            if (currentTransition != null)
+            if (CurrentTransition != null)
             {
-                if (currentRule)
+                if (CurrentRuleVariable != null)
                 {
                     CreateRule();
                 }
                 flushTransition();
+            }
+            if(CurrentVariableName != null)
+            {
+                CreateVariable();
             }
         }
 
         public AbstractStateBuilder Trasition(String name)
         {
             createStuff();
-            currentTransition = new Transition(name, currentState);
-            currentState.AddTransition(name, currentTransition);
+            CurrentTransition = new Transition(name, CurrentState);
+            CurrentState.AddTransition(name, CurrentTransition);
             return this;
         }
 
         public AbstractStateBuilder To(String state)
         {
-            transitionStateList.Add(new StateTrasition(state, currentTransition));
+            transitionStateList.Add(new StateTrasition(state, CurrentTransition));
             return this;
         }
 
@@ -75,66 +86,66 @@ namespace ConsoleApp1
         {
             createStuff();
 
-            this.currentState = new State(name);
-            stateDic.Add(name, currentState);
-            if (currentEntity.CurrentState == null)
+            this.CurrentState = new State(name);
+            stateDic.Add(name, CurrentState);
+            if (CurrentEntity.CurrentState == null)
             {
-                currentEntity.CurrentState = this.currentState;
+                CurrentEntity.CurrentState = this.CurrentState;
             }
             return this;
         }
 
-        public AbstractStateBuilder When()
+        public AbstractStateBuilder When(String variable)
         {
-            if(currentRule == true)
+            if(CurrentRuleVariable != null)
             {
                 CreateRule();
             }
-            currentRule = true;
+            CurrentRuleVariable = variable;
             return this;
         }
 
         public AbstractStateBuilder IntegerRule()
         {
-            currentTypeRule = "Integer";
+            CurrentTypeRule = "Integer";
             return this;
         }
 
         public AbstractStateBuilder More()
         {
-            currentRuleMore = true;
+            CurrentRuleMore = true;
             return this;
         }
 
         public AbstractStateBuilder Less()
         {
-            currentRuleLess = true;
+            CurrentRuleLess = true;
             return this;
         }
 
         public AbstractStateBuilder MoreOrEqual()
         {
-            currentRuleMore = true;
-            currentRuleEqual = true;
+            CurrentRuleMore = true;
+            CurrentRuleEqual = true;
             return this;
         }
 
         public AbstractStateBuilder LessAndEqual()
         {
-            currentRuleLess = true;
-            currentRuleEqual = true;
+            CurrentRuleLess = true;
+            CurrentRuleEqual = true;
             return this;
         }
 
         public AbstractStateBuilder Equal()
         {
-            currentRuleEqual = true;
+            CurrentRuleEqual = true;
             return this;
         }
 
         public AbstractStateBuilder RuleValue(Object input)
         {
-            currentRuleValue = input;
+            CurrentRuleValue = input;
             return this;
         }
 
@@ -143,62 +154,114 @@ namespace ConsoleApp1
             transition.ResultState = resultState;
         }
 
-        public AbstractStateBuilder Temperatur(int temperature)
+        public AbstractStateBuilder Variable(String name)
         {
-            ((Element)currentEntity).Temperature = temperature;
+            CurrentVariableName = name;
             return this;
+        }
+
+        public AbstractStateBuilder IntegerVariable()
+        {
+            CurrentVariableType = "Integer";
+            return this;
+        }
+
+        public AbstractStateBuilder VariableValue(object value)
+        {
+            CurrentVariableValue = value;
+            return this;
+        }
+        
+        private void CreateVariable()
+        {
+            Variable var = null;
+            if (CurrentVariableType.Equals("Integer"))
+            {
+                try
+                {
+                    int i = (int)CurrentVariableValue;
+                    var = new Variable(CurrentVariableName, CurrentVariableValue, CurrentVariableType);
+                }
+                catch (InvalidCastException)
+                {
+                    throw new ArgumentException("An Integer was expected for this type of Variable");
+                }
+            } else
+            {
+                throw new ArgumentException("Type: " + CurrentVariableType + " is not a supported type for variables");
+            }
+            CurrentEntity.AddVariable(var);
+            CurrentVariableName = null;
+            CurrentVariableValue = null;
+            CurrentVariableType = null;
+        }
+
+        private Boolean IsInteger(object currentVariableValue)
+        {
+            try
+            {
+                int i = (int)currentVariableValue;
+                return true;
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException("An Integer was expected for this type of Variable");
+            }
         }
 
         private void CreateRule()
         {
-            if (currentTypeRule.Equals("Integer")) {
-                int value = (int)currentRuleValue;
-                if (currentRuleEqual == true)
+            if (CurrentTypeRule.Equals("Integer")) {
+                int value = (int)CurrentRuleValue;
+                if (CurrentRuleEqual == true)
                 {
-                    if (currentRuleLess == true)
+                    if (CurrentRuleLess == true)
                     {
-                        currentTransition.Rule = new LessEqualRule(value);
-                    } else if (currentRuleMore == true)
+                        CurrentTransition.Rule = new LessEqualRule(CurrentRuleVariable, value);
+                    } else if (CurrentRuleMore == true)
                     {
-                        currentTransition.Rule = new MoreEqualRule(value);
+                        CurrentTransition.Rule = new MoreEqualRule(CurrentRuleVariable, value);
                     } else
                     {
-                        currentTransition.Rule = new EqualRule(value);
+                        CurrentTransition.Rule = new EqualRule(CurrentRuleVariable, value);
                     }
                 } else
                 {
-                    if (currentRuleLess == true)
+                    if (CurrentRuleLess == true)
                     {
-                        currentTransition.Rule = new LessRule(value);
+                        CurrentTransition.Rule = new LessRule(CurrentRuleVariable, value);
                     }
-                    else if (currentRuleMore == true)
+                    else if (CurrentRuleMore == true)
                     {
-                        currentTransition.Rule = new MoreRule(value);
+                        CurrentTransition.Rule = new MoreRule(CurrentRuleVariable, value);
                     }
                 }
+            } else
+            {
+                throw new ArgumentException("Type: " + CurrentTypeRule + " is not a supported type for rules");
             }
             flushRule();
         }
 
         private void flushTransition()
         {
-            currentTransition = null;
+            CurrentTransition = null;
             flushRule();
         }
 
         private void flushRule()
         {
-            currentRule = false;
+            CurrentRuleVariable = null;
 
-            currentRuleMore = false;
+            CurrentRuleMore = false;
 
-            currentRuleLess = false;
+            CurrentRuleLess = false;
 
-            currentRuleEqual = false;
+            CurrentRuleEqual = false;
 
-            currentTypeRule = "";
+            CurrentTypeRule = "";
 
-            currentRuleValue = false;
+            CurrentRuleValue = false;
         }
 
         private class StateTrasition

@@ -10,6 +10,11 @@ namespace ConsoleApp1.Rule
     {
         public abstract Boolean SatisfyAbstractRule(Object input);
 
+        public string VariableName;
 
+        public AbstractRule(string variableName)
+        {
+            this.VariableName = variableName;
+        }
     }
 }

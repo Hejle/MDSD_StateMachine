@@ -8,13 +8,13 @@ namespace ConsoleApp1.Rule
 {
     public class LessEqualRule : AbstractIntegerRule
     {
-        public LessEqualRule(int value)
+        public LessEqualRule(string variable, int value) : base(variable, value)
         {
-            this.targetValue = value;
         }
+
         protected override bool SatisfyIntRule(int input)
         {
-            return input <= targetValue;
+            return input <= TargetValue;
         }
     }
 }

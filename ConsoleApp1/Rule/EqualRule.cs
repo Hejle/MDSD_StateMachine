@@ -8,14 +8,13 @@ namespace ConsoleApp1.Rule
 {
     public class EqualRule : AbstractIntegerRule
     {
-        public EqualRule(int value)
+        public EqualRule(string variable, int value) : base (variable, value)
         {
-            this.targetValue = value;
         }
 
         protected override bool SatisfyIntRule(int input)
         {
-            return input == targetValue;
+            return input == TargetValue;
         }
     }
 }

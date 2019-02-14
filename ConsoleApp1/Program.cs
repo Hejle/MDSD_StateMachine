@@ -25,11 +25,11 @@ namespace DslStateMachine
             ElementBuilder eb = new ElementBuilder();
             Element water = (Element) eb.Build();
             Console.WriteLine(water.PrintState());
-            water.IncreaseDegrees(100);
-            water.DecreaseDegrees(30);
-            water.DecreaseDegrees(100);
-            water.IncreaseDegrees(40);
-            water.IncreaseDegrees(20);
+            water.IncreaseIntVariable("Temperature", 100);
+            water.DecreaseIntVariable("Temperature", 30);
+            water.DecreaseIntVariable("Temperature", 100);
+            water.IncreaseIntVariable("Temperature", 40);
+            water.IncreaseIntVariable("Temperature", 20);
         }
     }
 }

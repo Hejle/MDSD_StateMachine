@@ -15,9 +15,9 @@ namespace ConsoleApp1
 
         public AbstractRule Rule { get; set; }
 
-        public String Name { get; private set; }
+        public string Name { get; private set; }
 
-        public Transition(String name, State parentState)
+        public Transition(string name, State parentState)
         {
             this.Name = name;
             this.ParentState = parentState;

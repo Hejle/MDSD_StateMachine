@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.Rule;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,24 +11,27 @@ namespace ConsoleApp1
     {
         public string Name { get; private set; }
     
-        private Dictionary<String, Transition> transitionsDictionary = new Dictionary<string, Transition>();
+        private Dictionary<string, Transition> TransitionsDictionary = new Dictionary<string, Transition>();
 
-        public State (String name) {
+        public State (string name) {
             this.Name = name;
         }
 
         public void AddTransition(String transitionName, Transition transition)
         {
-            transitionsDictionary.Add(transitionName, transition);
+            TransitionsDictionary.Add(transitionName, transition);
         }
 
-        public State CheckTrasitionRules(int temperature)
+        public State CheckTrasitionRules(Dictionary<String, Variable> variables)
         {
-            foreach (KeyValuePair<string, Transition> entry in transitionsDictionary)
+            foreach (KeyValuePair<string, Transition> entry in TransitionsDictionary)
             {
-                if (entry.Value.Rule.SatisfyAbstractRule(temperature))
+                AbstractRule rule = entry.Value.Rule;
+                Variable variable = variables[rule.VariableName];
+
+                if (rule.SatisfyAbstractRule(variable.Value))
                 {
-                    return entry.Value.ResultState.CheckTrasitionRules(temperature);
+                    return entry.Value.ResultState.CheckTrasitionRules(variables);
                 }
             }
             return this;
