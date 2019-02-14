@@ -29,7 +29,7 @@ namespace DslStateMachine
             water.DecreaseDegrees(30);
             water.DecreaseDegrees(100);
             water.IncreaseDegrees(40);
-            
+            water.IncreaseDegrees(20);
         }
     }
 }
