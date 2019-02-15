@@ -23,11 +23,11 @@ namespace ConsoleApp1
                 Finish());
         }
 
-        public Entity Build(string name, int melt, int freeze, int vaporize, int condense)
+        public Entity Build(string name, int startTemperature, int melt, int freeze, int vaporize, int condense)
         {
             return Init(
                 Entity(name).
-                Variable("Temperature").IntegerVariable().VariableValue(20).
+                Variable("Temperature").IntegerVariable().VariableValue(startTemperature).
                     State("Solid").
                         Trasition("Melt").To("Liquid").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(melt).
                     State("Liquid").
