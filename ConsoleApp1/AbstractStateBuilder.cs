@@ -55,6 +55,8 @@ namespace ConsoleApp1
                 To(entry.transition, state);
             }
 
+            FlushAll();
+
             return CurrentEntity;
         }
 
@@ -66,7 +68,7 @@ namespace ConsoleApp1
                 {
                     CreateRule();
                 }
-                flushTransition();
+                FlushTransition();
             }
             if(CurrentVariableName != null)
             {
@@ -246,16 +248,16 @@ namespace ConsoleApp1
             {
                 throw new ArgumentException("Type: " + CurrentTypeRule + " is not a supported type for rules");
             }
-            flushRule();
+            FlushRule();
         }
 
-        private void flushTransition()
+        private void FlushTransition()
         {
             CurrentTransition = null;
-            flushRule();
+            FlushRule();
         }
 
-        private void flushRule()
+        private void FlushRule()
         {
             CurrentRuleVariable = null;
 
@@ -268,6 +270,15 @@ namespace ConsoleApp1
             CurrentTypeRule = "";
 
             CurrentRuleValue = false;
+        }
+
+        private void FlushAll()
+        {
+            stateDic = new Dictionary<string, State>();
+            transitionStateList = new List<StateTrasition>();
+            CurrentState = null;
+            FlushRule();
+            FlushTransition();
         }
 
         private class StateTrasition
