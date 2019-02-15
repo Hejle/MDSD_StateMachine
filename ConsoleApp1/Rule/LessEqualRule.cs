@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1.Rule
+namespace DslStateMachine.Rule
 {
     public class LessEqualRule : AbstractIntegerRule
     {
