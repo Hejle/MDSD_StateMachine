@@ -23,6 +23,21 @@ namespace ConsoleApp1
                 Finish());
         }
 
+        public Entity Build(string name, int melt, int freeze, int vaporize, int condense)
+        {
+            return Init(
+                Entity(name).
+                Variable("Temperature").IntegerVariable().VariableValue(20).
+                    State("Solid").
+                        Trasition("Melt").To("Liquid").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(melt).
+                    State("Liquid").
+                        Trasition("Freeze").To("Solid").When("Temperature").IntegerRule().Less().RuleValue(freeze).
+                        Trasition("Vaporize").To("Gas").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(vaporize).
+                    State("Gas").
+                        Trasition("Condense").To("Liquid").When("Temperature").IntegerRule().Less().RuleValue(condense).
+                Finish());
+        }
+
         private Entity Init(Entity e)
         {
             Element element = (Element) e;

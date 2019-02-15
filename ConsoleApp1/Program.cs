@@ -24,7 +24,8 @@ namespace DslStateMachine
         {
             ElementBuilder eb = new ElementBuilder();
             Element water = (Element) eb.Build();
-            Console.WriteLine(water.PrintState());
+            Console.WriteLine("Starting Temperature: " + water.GetVariable("Temperature").Value);
+            Console.WriteLine("Starting State: " + water.GetState());
             water.IncreaseIntVariable("Temperature", 100);
             water.DecreaseIntVariable("Temperature", 30);
             water.DecreaseIntVariable("Temperature", 100);

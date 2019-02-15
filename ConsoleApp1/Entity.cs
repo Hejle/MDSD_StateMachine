@@ -50,9 +50,14 @@ namespace ConsoleApp1
             checkRules();
         }
 
-        public string PrintState()
+        public string GetState()
         {
             return CurrentState.Name;
+        }
+
+        public Variable GetVariable(string name)
+        {
+            return Variables[name];
         }
 
         private protected void checkRules()
