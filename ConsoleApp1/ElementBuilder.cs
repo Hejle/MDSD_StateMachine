@@ -13,8 +13,10 @@ namespace ConsoleApp1
             return Init(
                 Entity("Water").
                 Variable("Temperature").IntegerVariable().VariableValue(20).
+                Variable("Energy").IntegerVariable().VariableValue(0).
                     State("Solid").
                         Trasition("Melt").To("Liquid").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(0).
+                            When("Energy").IntegerRule().MoreOrEqual().RuleValue(10).
                     State("Liquid").
                         Trasition("Freeze").To("Solid").When("Temperature").IntegerRule().Less().RuleValue(0).
                         Trasition("Vaporize").To("Gas").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(100).

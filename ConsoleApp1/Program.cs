@@ -28,6 +28,7 @@ namespace DslStateMachine
             Console.WriteLine("Starting Temperature: " + water.GetVariable("Temperature").Value);
             Console.WriteLine("Starting State: " + water.GetState());
             water.IncreaseIntVariable("Temperature", 100);
+            water.IncreaseIntVariable("Energy", 9000);
             water.DecreaseIntVariable("Temperature", 30);
             water.DecreaseIntVariable("Temperature", 100);
             water.IncreaseIntVariable("Temperature", 40);

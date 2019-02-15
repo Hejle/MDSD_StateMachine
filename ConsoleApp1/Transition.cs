@@ -13,9 +13,19 @@ namespace ConsoleApp1
 
         public State ResultState { get; set; }
 
-        public AbstractRule Rule { get; set; }
+        public List<AbstractRule> Rules = new List<AbstractRule>();
 
         public string Name { get; private set; }
+
+        public List<AbstractRule> GetRules()
+        {
+            return Rules;
+        }
+
+        public void AddRule(AbstractRule rule)
+        {
+            Rules.Add(rule);
+        }
 
         public Transition(string name, State parentState)
         {

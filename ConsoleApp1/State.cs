@@ -26,10 +26,17 @@ namespace ConsoleApp1
         {
             foreach (KeyValuePair<string, Transition> entry in TransitionsDictionary)
             {
-                AbstractRule rule = entry.Value.Rule;
-                Variable variable = variables[rule.VariableName];
+                bool transition = true;
+                foreach(AbstractRule rule in entry.Value.GetRules())
+                {
+                    if(transition)
+                    {
+                        Variable variable = variables[rule.VariableName];
 
-                if (rule.SatisfyAbstractRule(variable.Value))
+                        transition = rule.SatisfyAbstractRule(variable.Value);
+                    }
+                }
+                if (transition)
                 {
                     return entry.Value.ResultState.CheckTrasitionRules(variables);
                 }

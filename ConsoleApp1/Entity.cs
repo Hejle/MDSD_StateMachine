@@ -8,7 +8,6 @@ namespace ConsoleApp1
 {
     public abstract class Entity
     {
-        //Metamodel?
         private List<State> PossibleStates = new List<State>();
 
         private protected Dictionary<String, Variable> Variables = new Dictionary<String, Variable>();

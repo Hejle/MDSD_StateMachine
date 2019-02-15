@@ -36,7 +36,6 @@ namespace ConsoleApp1
 
         private object CurrentVariableValue;
 
-
         public abstract AbstractStateBuilder Entity(String name);
         public abstract Entity Build();
 
@@ -48,7 +47,7 @@ namespace ConsoleApp1
 
         public Entity Finish()
         {
-            createStuff();
+            CreateStuff();
             foreach (StateTrasition entry in transitionStateList)
             {
                 State state = stateDic[entry.state];
@@ -60,7 +59,7 @@ namespace ConsoleApp1
             return CurrentEntity;
         }
 
-        private void createStuff()
+        private void CreateStuff()
         {
             if (CurrentTransition != null)
             {
@@ -70,7 +69,7 @@ namespace ConsoleApp1
                 }
                 FlushTransition();
             }
-            if(CurrentVariableName != null)
+            if (CurrentVariableName != null)
             {
                 CreateVariable();
             }
@@ -78,7 +77,7 @@ namespace ConsoleApp1
 
         public AbstractStateBuilder Trasition(String name)
         {
-            createStuff();
+            CreateStuff();
             CurrentTransition = new Transition(name, CurrentState);
             CurrentState.AddTransition(name, CurrentTransition);
             return this;
@@ -92,7 +91,7 @@ namespace ConsoleApp1
 
         public AbstractStateBuilder State(String name)
         {
-            createStuff();
+            CreateStuff();
 
             this.CurrentState = new State(name);
             stateDic.Add(name, CurrentState);
@@ -105,7 +104,7 @@ namespace ConsoleApp1
 
         public AbstractStateBuilder When(String variable)
         {
-            if(CurrentRuleVariable != null)
+            if (CurrentRuleVariable != null)
             {
                 CreateRule();
             }
@@ -157,13 +156,15 @@ namespace ConsoleApp1
             return this;
         }
 
-        private void To(Transition transition, State resultState)
-        {
-            transition.ResultState = resultState;
+        public AbstractStateBuilder And() {
+            return this;
         }
+
+
 
         public AbstractStateBuilder Variable(String name)
         {
+            CreateStuff();
             CurrentVariableName = name;
             return this;
         }
@@ -179,7 +180,12 @@ namespace ConsoleApp1
             CurrentVariableValue = value;
             return this;
         }
-        
+
+        private void To(Transition transition, State resultState)
+        {
+            transition.ResultState = resultState;
+        }
+
         private void CreateVariable()
         {
             Variable var = null;
@@ -225,23 +231,23 @@ namespace ConsoleApp1
                 {
                     if (CurrentRuleLess == true)
                     {
-                        CurrentTransition.Rule = new LessEqualRule(CurrentRuleVariable, value);
+                        CurrentTransition.AddRule(new LessEqualRule(CurrentRuleVariable, value));
                     } else if (CurrentRuleMore == true)
                     {
-                        CurrentTransition.Rule = new MoreEqualRule(CurrentRuleVariable, value);
+                        CurrentTransition.AddRule(new MoreEqualRule(CurrentRuleVariable, value));
                     } else
                     {
-                        CurrentTransition.Rule = new EqualRule(CurrentRuleVariable, value);
+                        CurrentTransition.AddRule(new EqualRule(CurrentRuleVariable, value));
                     }
                 } else
                 {
                     if (CurrentRuleLess == true)
                     {
-                        CurrentTransition.Rule = new LessRule(CurrentRuleVariable, value);
+                        CurrentTransition.AddRule(new LessRule(CurrentRuleVariable, value));
                     }
                     else if (CurrentRuleMore == true)
                     {
-                        CurrentTransition.Rule = new MoreRule(CurrentRuleVariable, value);
+                        CurrentTransition.AddRule(new MoreRule(CurrentRuleVariable, value));
                     }
                 }
             } else
