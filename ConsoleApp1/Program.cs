@@ -26,13 +26,25 @@ namespace DslStateMachine
             Console.WriteLine("Element is " + water.Name);
             Console.WriteLine("Starting Temperature: " + water.GetVariable("Temperature").Value);
             Console.WriteLine("Starting State: " + water.GetState());
-            water.IncreaseIntVariable("Temperature", 100);
+            Console.WriteLine();
+            water.IncreaseIntVariable("Temperature", 100); //GAS
+            Console.WriteLine();
             water.IncreaseIntVariable("Energy", 9000);
-            water.DecreaseIntVariable("Temperature", 30);
-            water.DecreaseIntVariable("Temperature", 100);
-            water.IncreaseIntVariable("Temperature", 40);
-            water.IncreaseIntVariable("Temperature", 20);
+            Console.WriteLine();
+            water.DecreaseIntVariable("Temperature", 30); // LIQUID
+            Console.WriteLine();
+            water.DecreaseIntVariable("Temperature", 100); //SOLID
+            Console.WriteLine();
+            water.IncreaseIntVariable("Temperature", 40); //LIQUID
+            Console.WriteLine();
+            water.IncreaseIntVariable("Temperature", 20); // LIQUID
+            Console.WriteLine();
+            water.DecreaseIntVariable("Temperature", 70); // SOLID
+            Console.WriteLine();
+            water.IncreaseIntVariable("Temperature", 150); // GAS
+            Console.WriteLine();
 
+            /*
             Element iron = (Element)eb.Build("Iron", 0, 1538, 1538, 2861, 2891);
             Console.WriteLine("Element is " + iron.Name);
             Console.WriteLine("Starting Temperature: " + iron.GetVariable("Temperature").Value);
@@ -41,7 +53,7 @@ namespace DslStateMachine
             iron.DecreaseIntVariable("Temperature", 1000);
             iron.DecreaseIntVariable("Temperature", 2000);
             iron.IncreaseIntVariable("Temperature", 1540);
-            iron.IncreaseIntVariable("Temperature", 200);
+            iron.IncreaseIntVariable("Temperature", 200); */
 
 
         }

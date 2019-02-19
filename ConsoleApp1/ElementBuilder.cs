@@ -15,13 +15,17 @@ namespace DslStateMachine
                 Variable("Temperature").IntegerVariable().VariableValue(20).
                 Variable("Energy").IntegerVariable().VariableValue(0).
                     State("Solid").
-                        Trasition("Melt").To("Liquid").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(0).
-                            When("Energy").IntegerRule().MoreOrEqual().RuleValue(10).
+                        Trasition("Melting").To("Liquid").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(0).
+                            When("Temperature").IntegerRule().Less().RuleValue(100).
+                        Trasition("Sublimation").To("Gas").When("Temperature").IntegerRule().More().RuleValue(100).
                     State("Liquid").
-                        Trasition("Freeze").To("Solid").When("Temperature").IntegerRule().Less().RuleValue(0).
-                        Trasition("Vaporize").To("Gas").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(100).
+                        Trasition("Freezing").To("Solid").When("Temperature").IntegerRule().Less().RuleValue(0).
+                        Trasition("Vaporization").To("Gas").When("Temperature").IntegerRule().MoreOrEqual().RuleValue(100).
+                            When("Energy").IntegerRule().More().RuleValue(100).
                     State("Gas").
                         Trasition("Condense").To("Liquid").When("Temperature").IntegerRule().Less().RuleValue(100).
+                            When("Temperature").IntegerRule().More().RuleValue(-10).
+                        Trasition("Deposition").To("Solid").When("Temperature").IntegerRule().Less().RuleValue(-10).
                 Finish());
         }
 

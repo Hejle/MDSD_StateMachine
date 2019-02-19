@@ -38,6 +38,7 @@ namespace DslStateMachine
                 }
                 if (transition)
                 {
+                    Console.WriteLine("Transition: " + entry.Value.Name);
                     return entry.Value.ResultState.CheckTrasitionRules(variables);
                 }
             }
